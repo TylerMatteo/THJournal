@@ -48,5 +48,5 @@ def new():
         #         flash("Your email or password doesn't match!", "error")
     return render_template('new.html', form=form)
 
-app.run(host='0.0.0.0', port=8080, debug=True)
+app.run(host='127.0.0.1', port=8080, debug=True)
     
