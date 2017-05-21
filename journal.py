@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from forms import EntryForm
 from entry import Entry
 
@@ -27,7 +27,10 @@ def delete(entry_id):
 @app.route('/entry', methods=('GET', 'POST'))
 def new():
     form = EntryForm()
+    print('TITLE')
+    print(form.title.data)
     if form.validate_on_submit():
+        #print('Valid!')
         Entry.create(
             title=form.title.data,
             date=form.date.data,
@@ -36,6 +39,9 @@ def new():
             resources=form.resources.data
         )
         return redirect(url_for('index'))
+    #else:
+        # print('Not valid!')
+        # print(form)
         # try:
         #     user = models.User.get(models.User.email == form.email.data)
         # except models.DoesNotExist:
