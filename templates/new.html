@@ -21,10 +21,10 @@
             </div>
         </header>
         <section>
-            <div class="container" method="POST" action="/entry">
+            <div class="container">
                 <div class="new-entry">
                     <h2>New Entry</h2>
-                    <form>
+                    <form method="POST" action="">
                         {{ form.hidden_tag() }}
                         {% for field in form %}
                             {% if field.errors %}
