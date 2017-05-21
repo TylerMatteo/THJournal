@@ -10,19 +10,21 @@ def index():
     entries = Entry.select()
     return render_template('index.html', entries=entries)
 
-@app.route('/entries/<entryid>')
+@app.route('/entries/<entry_id>')
 def details(entry_id):
-    pass
+    entry = Entry.get(Entry.id == entry_id)
+    return render_template('detail.html', entry=entry)
 
-@app.route('/entries/edit/<entryid>')
+@app.route('/entries/edit/<entry_id>')
 def edit(entry_id):
     entry = Entry.get(Entry.id == entry_id)
     form = EntryForm(obj=entry)
     return render_template('edit.html', form=form)
 
-@app.route('/entries/delete/<entryid>')
+@app.route('/entries/delete/<entry_id>')
 def delete(entry_id):
-    pass
+    Entry.get(Entry.id == entry_id).delete_instance()
+    return redirect(url_for('index'))
 
 @app.route('/entry', methods=('GET', 'POST'))
 def new():
