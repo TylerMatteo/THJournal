@@ -15,10 +15,18 @@ def details(entry_id):
     entry = Entry.get(Entry.id == entry_id)
     return render_template('detail.html', entry=entry)
 
-@app.route('/entries/edit/<entry_id>')
+@app.route('/entries/edit/<entry_id>', methods=('GET', 'POST'))
 def edit(entry_id):
     entry = Entry.get(Entry.id == entry_id)
     form = EntryForm(obj=entry)
+    if form.validate_on_submit():
+        entry.title = form.title.data
+        entry.date = form.date.data
+        entry.timespent = form.timespent.data
+        entry.body = form.body.data
+        entry.resources = form.resources.data
+        entry.save()
+        return redirect(url_for('index'))
     return render_template('edit.html', form=form)
 
 @app.route('/entries/delete/<entry_id>')
@@ -29,10 +37,7 @@ def delete(entry_id):
 @app.route('/entry', methods=('GET', 'POST'))
 def new():
     form = EntryForm()
-    print('TITLE')
-    print(form.title.data)
     if form.validate_on_submit():
-        #print('Valid!')
         Entry.create(
             title=form.title.data,
             date=form.date.data,
@@ -41,19 +46,6 @@ def new():
             resources=form.resources.data
         )
         return redirect(url_for('index'))
-    #else:
-        # print('Not valid!')
-        # print(form)
-        # try:
-        #     user = models.User.get(models.User.email == form.email.data)
-        # except models.DoesNotExist:
-        #     flash("Your email or password doesn't match!", "error")
-        # else:
-        #     if check_password_hash(user.password, form.password.data):
-        #         login_user(user)
-        #         return redirect(url_for('index'))
-        #     else:
-        #         flash("Your email or password doesn't match!", "error")
     return render_template('new.html', form=form)
 
 app.run(host='127.0.0.1', port=8080, debug=True)
