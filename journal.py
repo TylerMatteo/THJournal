@@ -15,8 +15,7 @@ def index():
 @app.route('/entries/<entry_id>')
 def details(entry_id):
     entry = Entry.get(Entry.id == entry_id)
-    return
-    render_template('detail.html', entry=entry)
+    return render_template('detail.html', entry=entry)
 
 
 @app.route('/entries/edit/<entry_id>', methods=('GET', 'POST'))
