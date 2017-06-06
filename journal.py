@@ -1,10 +1,15 @@
 from flask import Flask, render_template, redirect, url_for
 from forms import EntryForm
 from entry import Entry
+from peewee import *
 
 app = Flask(__name__)
 app.secret_key = 'asfhofijofw0923nowf408h23oinfewoihfew'
 
+db = SqliteDatabase('journal.db')
+
+db.connect()
+db.create_tables([Entry], safe=True)
 
 @app.route('/')
 def index():
